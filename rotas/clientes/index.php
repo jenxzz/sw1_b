@@ -11,4 +11,29 @@
 
     $MetodoHTTP = $_SERVER ['REQUEST_METHOD'];
     echo $MetodoHTTP;
+
+    switch ($MetodoHTTP) {
+        case 'GET':
+            $sql = "Select * from CLIENTES";
+            $resultado = $conexao->query($sql);
+            if ($resultado->num_rows > 0) {
+                $resposta = []
+                while ($linha = $resultado->fetch_assoc()) {
+                    $resposta[] = $linha;
+                }
+                http_response_code(200);
+                echo json_encode($resposta);
+            }
+
+            else {
+                http_response_code(404);
+                echo json_encode('mensagem' => 'Nenhum registro encontrado');
+            }
+
+            break;
+        
+        default:
+            
+            break;
+    }
 ?>
